@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Una Galaxia de Amor para Ti ✨</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================
+       1. RESET Y ESTILOS BASE
+       ========================================== */
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; width: 100%; height: 100%; overflow: hidden;
+      background: #050510; color: #fff; font-family: Quicksand, sans-serif;
+    }
+    canvas { display: block; }
+
+    /* ==========================================
+       2. CAPAS DE FONDO
+       ========================================== */
+    #canvas-container { 
+      position: fixed; inset: 0; z-index: 0; 
+      opacity: 0; transition: opacity 1.5s ease;
+    }
+    #canvas-container.visible { opacity: 1; }
+    
+    .vignette {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 25%, rgba(3,2,15,.32) 75%, rgba(0,0,5,.75));
+      opacity: 0; transition: opacity 1.5s ease;
+    }
+    .vignette.visible { opacity: 1; }
+
+    /* ==========================================
+       3. PANTALLA 1: TARJETA DE INICIO
+       ========================================== */
+    #intro-card-section {
+      position: fixed; inset: 0; z-index: 30;
+      display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(circle at center, #2b0f1c 0%, #050510 100%);
+      transition: opacity 1s ease, visibility 1s ease;
+    }
+    #intro-card-section.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .card {
+      position: relative; background: #ffffff;
+      width: 90%; max-width: 400px; padding: 40px 30px;
+      border-radius: 30px; text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+    .flower { position: absolute; top: 15px; left: 20px; color: #ff4d79; font-size: 24px; }
+    .card h1 { font: 700 2.2rem 'Playfair Display', serif; color: #c91140; margin: 0 0 20px 0; line-height: 1.2; }
+    .card-img { width: 140px; height: auto; margin-bottom: 20px; }
+    .card p { color: #666; font-size: 1rem; font-weight: 600; margin-bottom: 30px; }
+    .btn-pink {
+      background: linear-gradient(90deg, #ff8fab, #ff4d79);
+      color: white; border: none; border-radius: 999px;
+      padding: 15px 30px; font: 600 1rem Quicksand, sans-serif;
+      cursor: pointer; width: 100%; transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 10px 20px rgba(255, 77, 121, 0.3);
+    }
+    .btn-pink:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(255, 77, 121, 0.5); }
+
+    /* ==========================================
+       4. PANTALLA 2: EL PUNTO ROSA
+       ========================================== */
+    #star-section {
+      position: fixed; inset: 0; z-index: 20;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: #000000; transition: opacity 1s ease, visibility 1s ease;
+    }
+    #star-section.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    .quote-text {
+      font: italic 400 1.1rem 'Playfair Display', serif;
+      color: #ffffff; max-width: 350px; text-align: center;
+      line-height: 1.6; margin-bottom: 40px; padding: 0 20px;
+    }
+    .pink-star {
+      width: 70px; height: 70px;
+      background: radial-gradient(circle, #ffb3c6 0%, #ff4d79 50%, #c91140 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 30px #ff4d79, 0 0 60px #c91140, 0 0 100px #c91140;
+      cursor: pointer; animation: pulseStar 1.5s infinite alternate; margin-bottom: 40px;
+    }
+    .tap-text { color: #b0b0b0; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-align: center; padding: 0 20px; }
+
+    /* ==========================================
+       5. TEXTO INFERIOR
+       ========================================== */
+    #birthday-overlay {
+      position: fixed; bottom: 30px; left: 0; right: 0; z-index: 5;
+      text-align: center; pointer-events: none;
+      opacity: 0; transition: opacity 1.5s ease 1s;
+    }
+    #birthday-overlay.visible { opacity: 1; }
+    
+    #birthday-overlay h2 {
+      font: 400 2.8rem 'Great Vibes', cursive;
+      color: #ffffff; margin: 0 0 10px 0;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+    #counter-text {
+      font: 500 0.85rem Quicksand, sans-serif;
+      color: #ded4f4; margin: 0; letter-spacing: 0.05em;
+    }
+
+    /* ==========================================
+       6. PALABRAS FLOTANTES Y BOTÓN VOLVER
+       ========================================== */
+    #word-layer {
+      position: fixed; inset: 0; z-index: 3; pointer-events: none;
+      opacity: 0; transition: opacity 1s; perspective: 900px;
+    }
+    #word-layer.visible { opacity: 1; }
+    
+    .word {
+      position: absolute; left: 0; top: 0; pointer-events: auto;
+      border: 1px solid #ffffff38; background: linear-gradient(135deg,#ffffff20,#a855f72b);
+      backdrop-filter: blur(8px); color: #fff8ff; border-radius: 999px;
+      padding: 8px 15px; font: 700 clamp(0.85rem,2vw,1.1rem) Quicksand, sans-serif;
+      letter-spacing: .08em; text-shadow: 0 0 13px #d8b4fe;
+      box-shadow: 0 0 20px #a855f733; white-space: nowrap; will-change: transform;
+      transition: background .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+    .word:hover, .word:focus-visible {
+      background: #b65bdf70; box-shadow: 0 0 28px #e879f9a6;
+      outline: none; scale: 1.08;
+    }
+
+    .back-btn {
+      position: fixed; top: 20px; left: 20px; z-index: 15;
+      background: #ffffff15; border: 1px solid #ffffff40;
+      color: white; padding: 8px 16px; border-radius: 999px;
+      font: 600 0.85rem Quicksand, sans-serif; cursor: pointer;
+      backdrop-filter: blur(8px);
+      opacity: 0; visibility: hidden; transition: all 0.4s ease;
+    }
+    .back-btn.show { opacity: 1; visibility: visible; }
+    .back-btn:hover { background: #ffffff30; transform: scale(1.05); }
+
+    /* ==========================================
+       7. MODAL DE RECUERDOS (Z-INDEX ALTO)
+       ========================================== */
+    #memory-modal {
+      position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
+      padding: 18px; background: #02010bc9; backdrop-filter: blur(9px);
+      opacity: 0; visibility: hidden; transition: opacity .35s, visibility .35s;
+      pointer-events: none;
+    }
+    #memory-modal.open { opacity: 1; visibility: visible; pointer-events: auto; }
+    
+    .memory-card {
+      position: relative; width: min(420px, 94vw); max-height: 90vh; overflow: auto;
+      text-align: center; padding: 24px; border: 1px solid #ffffff4d;
+      border-radius: 24px; background: linear-gradient(145deg,#211332f5,#090b20f7);
+      box-shadow: 0 0 55px #a855f733; transform: translateY(14px) scale(.98);
+      transition: transform .35s;
+    }
+    #memory-modal.open .memory-card { transform: translateY(0) scale(1); }
+    
+    .close-btn {
+      position: absolute; right: 13px; top: 13px; width: 38px; height: 38px;
+      padding: 0; font-size: 1.3rem; background: #ffffff18;
+      border: 1px solid #ffffff30; border-radius: 50%; color: white; cursor: pointer;
+    }
+    #memory-title { font: 700 2.3rem Caveat, cursive; color: #f5d0fe; margin: 6px 36px 16px; }
+    #memory-image {
+      display: none; width: 100%; max-height: 42vh; object-fit: contain;
+      border-radius: 15px; border: 1px solid #ffffff36; background: #080614; margin: 0 auto 16px;
+    }
+    #memory-image.has-image { display: block; }
+    #memory-text { font-size: 1rem; line-height: 1.7; color: #f2eafa; white-space: pre-line; }
+    .modal-foot { margin-top: 20px; font-size: .7rem; letter-spacing: .13em; color: #c4b5fd; }
+
+    /* ==========================================
+       8. ANIMACIONES
+       ========================================== */
+    @keyframes pulseStar {
+      0% { transform: scale(1); box-shadow: 0 0 30px #ff4d79, 0 0 60px #c91140; }
+      100% { transform: scale(1.15); box-shadow: 0 0 50px #ff4d79, 0 0 100px #c91140, 0 0 150px #c91140; }
+    }
+    
+    @media(max-width: 600px) {
+      .word { padding: 6px 10px; max-width: 50vw; white-space: normal; text-align: center; font-size: 0.75rem; }
+      #birthday-overlay h2 { font-size: 2.2rem; }
+      #counter-text { font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PANTALLA 1: TARJETA DE INICIO -->
+  <section id="intro-card-section">
+    <div class="card">
+      <div class="flower">🌸</div>
+      <h1>Una Galaxia de<br>Amor para Ti</h1>
+      <img src="koala.png" alt="Osito y Conejito" class="card-img" onerror="this.style.display='none'">
+      <p>Feliz Cumpleaños, Mi Vida</p>
+      <button id="start-btn" class="btn-pink">Entrar a Nuestro Universo ☀️</button>
+    </div>
+  </section>
+
+  <!-- PANTALLA 2: EL PUNTO ROSA -->
+  <section id="star-section" class="hide">
+    <p class="quote-text">"Dicen que el universo entero nació de una gran explosión... pero el mío empezó de verdad el día en que te conocí"</p>
+    <div id="pink-star" class="pink-star"></div>
+    <p class="tap-text">TOCA LA ESTRELLA PARA ENCENDER<br>NUESTRO UNIVERSO 👇</p>
+  </section>
+
+  <!-- PANTALLA 3: LA GALAXIA -->
+  <div id="canvas-container"></div>
+  <div class="vignette" id="vignette"></div>
+  
+  <button id="back-to-intro" class="back-btn">↩ Volver al inicio</button>
+  <div id="word-layer" aria-label="Palabras interactivas"></div>
+
+  <div id="birthday-overlay">
+    <h2>¡Feliz Cumpleaños Melany!</h2>
+    <p id="counter-text">Cargando tiempo...</p>
+  </div>
+
+  <!-- Modal de Recuerdos -->
+  <div id="memory-modal" role="dialog" aria-modal="true" aria-labelledby="memory-title">
+    <div class="memory-card">
+      <button class="close-btn" id="close" aria-label="Cerrar">×</button>
+      <div style="font-size:.68rem;letter-spacing:.2em;color:#c4b5fd">UN MENSAJE PARA TI</div>
+      <h2 id="memory-title">Recuerdos</h2>
+      <img id="memory-image" alt="Fotografía del recuerdo">
+      <p id="memory-text"></p>
+      <div class="modal-foot">✧ HECHO CON CARIÑO ✧</div>
+    </div>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    /* ==========================================
+       1. CONFIGURACIÓN DE LAS PALABRAS
+       ========================================== */
+    const surprises = [
+      { title: 'HAPPY BIRTHDAY 🎂', phrase: 'El día que naciste el universo se volvió más bonito.', image: '' },
+      { title: 'MI VIDA 💖', phrase: 'Eres mi persona favorita en todo el cosmos.', image: '' },
+      { title: 'JUNTOS ∞', phrase: 'No importa cuántas estrellas haya, siempre quiero estar a tu lado.', image: '' },
+      { title: 'TE AMO ❤️', phrase: 'Te amo más de lo que las palabras pueden explicar.', image: '' },
+      { title: 'FELIZ CUMPLE 🎉', phrase: 'Espero que este año esté lleno de bendiciones y sonrisas.', image: '' },
+      { title: 'ERES MI UNIVERSO 🪐', phrase: 'Gracias por llenar mis días de luz.', image: '' }
+    ];
+
+    /* ==========================================
+       2. LÓGICA DEL DOM Y MODAL
+       ========================================== */
+    const layer = document.getElementById('word-layer');
+    const wordEls = [];
+    const modal = document.getElementById('memory-modal');
+    const backBtn = document.getElementById('back-to-intro');
+    
+    const introCardSection = document.getElementById('intro-card-section');
+    const starSection = document.getElementById('star-section');
+    const startBtn = document.getElementById('start-btn');
+    const pinkStar = document.getElementById('pink-star');
+    const birthdayOverlay = document.getElementById('birthday-overlay');
+    const canvasContainer = document.getElementById('canvas-container');
+    const vignette = document.getElementById('vignette');
+
+    // Crear los botones de las palabras
+    surprises.forEach((item, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'word';
+      btn.textContent = item.title;
+      btn.dataset.word = i;
+      layer.appendChild(btn);
+      wordEls.push(btn);
+      
+      // CAMBIO CLAVE: Usar 'pointerdown' en lugar de 'click' para evitar que el botón se mueva
+      btn.addEventListener('pointerdown', (e) => {
+        e.stopPropagation(); // Evita que Three.js interfiera
+        openSurprise(i);
+      });
+    });
+
+    function openSurprise(i) {
+      const item = surprises[i];
+      document.getElementById('memory-title').textContent = item.title;
+      document.getElementById('memory-text').textContent = item.phrase;
+      
+      const img = document.getElementById('memory-image');
+      if (item.image && item.image.trim() !== '') {
+        img.src = item.image; 
+        img.classList.add('has-image');
+      } else {
+        img.removeAttribute('src'); 
+        img.classList.remove('has-image');
+      }
+      modal.classList.add('open');
+    }
+
+    function closeModal() { modal.classList.remove('open'); }
+    
+    document.getElementById('close').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+    /* ==========================================
+       3. CONTADOR EN VIVO
+       ========================================== */
+    const startDate = new Date('2003-10-16T00:00:00'); 
+
+    function updateCounter() {
+      const now = new Date();
+      const diff = now - startDate;
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / 1000 / 60) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      
+      document.getElementById('counter-text').innerHTML = 
+        `Llevas <b>${days.toLocaleString()}</b> días, <b>${hours} h</b>, <b>${minutes} min</b> y <b>${seconds} s</b> llenando el universo de amor.`;
+    }
+    setInterval(updateCounter, 1000);
+    updateCounter();
+
+    /* ==========================================
+       4. FLUJO DE TRANSICIÓN
+       ========================================== */
+    startBtn.addEventListener('click', () => {
+      introCardSection.classList.add('hide');
+      setTimeout(() => { starSection.classList.remove('hide'); }, 500);
+    });
+
+    pinkStar.addEventListener('click', () => {
+      starSection.classList.add('hide');
+      setTimeout(() => {
+        canvasContainer.classList.add('visible');
+        vignette.classList.add('visible');
+        layer.classList.add('visible');
+        backBtn.classList.add('show');
+        birthdayOverlay.classList.add('visible');
+        
+        controls.autoRotateSpeed = 2.0; 
+        setTimeout(() => { controls.autoRotateSpeed = 0.28; }, 2000);
+      }, 600);
+    });
+
+    backBtn.addEventListener('click', () => {
+      layer.classList.remove('visible');
+      backBtn.classList.remove('show');
+      birthdayOverlay.classList.remove('visible');
+      canvasContainer.classList.remove('visible');
+      vignette.classList.remove('visible');
+      
+      closeModal();
+      setTimeout(() => {
+        introCardSection.classList.remove('hide');
+        starSection.classList.add('hide');
+        controls.reset();
+      }, 500);
+    });
+
+    /* ==========================================
+       5. THREE.JS (GALAXIA Y CORAZÓN)
+       ========================================== */
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x050510, .045);
+
+    const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, .1, 100);
+    camera.position.set(0, 3.5, 7);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setClearColor(0x050510, 1);
+    canvasContainer.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = .06;
+    controls.enablePan = false;
+    controls.minDistance = 2.5;
+    controls.maxDistance = 18;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = .28;
+    controls.saveState();
+
+    const galaxyGroup = new THREE.Group();
+    scene.add(galaxyGroup);
+
+    // --- Galaxia Espiral ---
+    const count = 50000, radius = 5, branches = 5, spin = 1.2, randomness = .35, randomnessPower = 2.5;
+    const inside = new THREE.Color('#ffb36b'), outside = new THREE.Color('#6b5cff');
+    const positions = new Float32Array(count * 3), colors = new Float32Array(count * 3);
+
+    for (let i = 0; i < count; i++) {
+      const j = i * 3, r = Math.pow(Math.random(), 1.4) * radius, branch = (i % branches) / branches * Math.PI * 2, angle = branch + r * spin;
+      const rand = () => Math.pow(Math.random(), randomnessPower) * (Math.random() < .5 ? 1 : -1) * randomness * r;
+      positions[j] = Math.cos(angle) * r + rand();
+      positions[j + 1] = rand() * .35;
+      positions[j + 2] = Math.sin(angle) * r + rand();
+      const c = inside.clone().lerp(outside, r / radius);
+      colors[j] = c.r; colors[j + 1] = c.g; colors[j + 2] = c.b;
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const mat = new THREE.PointsMaterial({
+      size: .025, sizeAttenuation: true, depthWrite: false,
+      blending: THREE.AdditiveBlending, vertexColors: true, transparent: true, opacity: .9
+    });
+    const galaxy = new THREE.Points(geo, mat);
+    galaxyGroup.add(galaxy);
+
+    // --- Corazón de Partículas ---
+    const heartCount = 3000;
+    const heartPositions = new Float32Array(heartCount * 3);
+    const heartColors = new Float32Array(heartCount * 3);
+    const heartColor = new THREE.Color('#ff4d79');
+
+    for (let i = 0; i < heartCount; i++) {
+      const t = Math.random() * Math.PI * 2;
+      const x = 16 * Math.pow(Math.sin(t), 3);
+      const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+      const scale = 0.08;
+      const thickness = 0.6;
+      
+      const px = x * scale + (Math.random() - 0.5) * thickness;
+      const py = y * scale + (Math.random() - 0.5) * thickness;
+      const pz = (Math.random() - 0.5) * thickness;
+
+      heartPositions[i*3] = px;
+      heartPositions[i*3+1] = py;
+      heartPositions[i*3+2] = pz;
+
+      heartColors[i*3] = heartColor.r;
+      heartColors[i*3+1] = heartColor.g;
+      heartColors[i*3+2] = heartColor.b;
+    }
+
+    const heartGeo = new THREE.BufferGeometry();
+    heartGeo.setAttribute('position', new THREE.BufferAttribute(heartPositions, 3));
+    heartGeo.setAttribute('color', new THREE.BufferAttribute(heartColors, 3));
+    
+    const heartMat = new THREE.PointsMaterial({
+      size: 0.04, sizeAttenuation: true, depthWrite: false,
+      blending: THREE.AdditiveBlending, vertexColors: true, transparent: true, opacity: 0.9
+    });
+    
+    const heartMesh = new THREE.Points(heartGeo, heartMat);
+    heartMesh.position.set(0, 1.5, 0); 
+    scene.add(heartMesh); 
+
+    // // Nombre "Melany"
+    // const textCanvas = document.createElement('canvas');
+    // textCanvas.width = 512; textCanvas.height = 256;
+    // const ctx = textCanvas.getContext('2d');
+    
+    // function drawName() {
+    //   ctx.clearRect(0, 0, textCanvas.width, textCanvas.height);
+    //   const gradient = ctx.createLinearGradient(0, 0, 512, 0);
+    //   gradient.addColorStop(0, '#fbcfe8'); gradient.addColorStop(1, '#c4b5fd'); 
+    //   ctx.fillStyle = gradient; ctx.font = 'bold 140px "Caveat", cursive';
+    //   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    //   ctx.shadowColor = '#e879f9'; ctx.shadowBlur = 25;
+    //   ctx.fillText('Melany', 256, 128);
+    // }
+
+    document.fonts.ready.then(() => {
+      drawName();
+      const texture = new THREE.CanvasTexture(textCanvas);
+      const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false });
+      
+      const nameSprite = new THREE.Sprite(spriteMaterial);
+      nameSprite.scale.set(3.5, 1.75, 1); 
+      nameSprite.position.set(0, -0.5, 0); 
+      galaxyGroup.add(nameSprite);
+      window.nameSprite = nameSprite;
+    });
+
+    // Koala
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load('koala.png', (koalaTexture) => {
+      const koalaMaterial = new THREE.SpriteMaterial({ map: koalaTexture, transparent: true, depthWrite: false });
+      const koalaSprite = new THREE.Sprite(koalaMaterial);
+      koalaSprite.scale.set(1.2, 1.6, 1); 
+      koalaSprite.position.set(0, -1.8, 0); 
+      galaxyGroup.add(koalaSprite);
+      window.koalaSprite = koalaSprite; 
+    });
+
+    // Anclajes de palabras
+    const wordAnchors = surprises.map((_, i) => {
+      const anchor = new THREE.Object3D();
+      const angle = (i / surprises.length) * Math.PI * 2 + .35;
+      const r = 3.2 + (i % 2) * .55; 
+      anchor.position.set(Math.cos(angle) * r, (Math.random() - 0.5) * 1.5, Math.sin(angle) * r);
+      galaxyGroup.add(anchor);
+      return anchor;
+    });
+
+    function positionOrbitWords() {
+      const width = innerWidth, height = innerHeight;
+      wordEls.forEach((el, i) => {
+        const anchor = wordAnchors[i];
+        const worldPos = new THREE.Vector3();
+        anchor.getWorldPosition(worldPos);
+        const projected = worldPos.clone().project(camera);
+        const visible = projected.z > -1 && projected.z < 1 && Math.abs(projected.x) < 1.15 && Math.abs(projected.y) < 1.15;
+        el.style.display = visible ? 'block' : 'none';
+        if (!visible) return;
+        
+        const x = (projected.x * .5 + .5) * width;
+        const y = (-projected.y * .5 + .5) * height;
+        const depth = THREE.MathUtils.clamp(1 - (worldPos.distanceTo(camera.position) / 14), .68, 1.08);
+        
+        el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) scale(${depth})`;
+        el.style.opacity = String(THREE.MathUtils.clamp(1 - (worldPos.distanceTo(camera.position) - 4) / 13, .45, 1));
+      });
+    }
+
+    /* ==========================================
+       6. BUCLE DE ANIMACIÓN
+       ========================================== */
+    const clock = new THREE.Clock();
+    function animate() {
+      requestAnimationFrame(animate);
+      const elapsed = clock.getElapsedTime();
+      
+      galaxyGroup.rotation.y = elapsed * .03;
+      
+      const heartPulse = 1 + Math.sin(elapsed * 2) * 0.05;
+      heartMesh.scale.set(heartPulse, heartPulse, heartPulse);
+      heartMesh.rotation.y = Math.sin(elapsed * 0.5) * 0.2; 
+
+      if (window.nameSprite) {
+        window.nameSprite.position.y = -0.5 + Math.sin(elapsed * 0.8) * 0.05;
+      }
+
+      if (window.koalaSprite) {
+        window.koalaSprite.position.y = -1.8 + Math.sin(elapsed * 0.8 + 1) * 0.05; 
+      }
+      
+      controls.update();
+      positionOrbitWords();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      positionOrbitWords();
+    });
+  </script>
+</body>
+</html>
