@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Una Galaxia de Amor para Ti ✨</title>
+  <title>Mel</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
   
   <style>
     /* ==========================================
@@ -41,29 +41,70 @@
     #intro-card-section {
       position: fixed; inset: 0; z-index: 30;
       display: flex; align-items: center; justify-content: center;
-      background: radial-gradient(circle at center, #2b0f1c 0%, #050510 100%);
+      background: radial-gradient(circle at center, #1f0b1d 0%, #08040c 100%);
       transition: opacity 1s ease, visibility 1s ease;
     }
     #intro-card-section.hide { opacity: 0; visibility: hidden; pointer-events: none; }
 
     .card {
-      position: relative; background: #ffffff;
-      width: 90%; max-width: 400px; padding: 40px 30px;
-      border-radius: 30px; text-align: center;
+      position: relative; 
+      background: #FCF2E6; 
+      width: 90%; max-width: 380px; 
+      padding: 40px 30px;
+      border-radius: 24px; 
+      text-align: center;
       box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     }
-    .flower { position: absolute; top: 15px; left: 20px; color: #ff4d79; font-size: 24px; }
-    .card h1 { font: 700 2.2rem 'Playfair Display', serif; color: #c91140; margin: 0 0 20px 0; line-height: 1.2; }
-    .card-img { width: 140px; height: auto; margin-bottom: 20px; }
-    .card p { color: #666; font-size: 1rem; font-weight: 600; margin-bottom: 30px; }
-    .btn-pink {
-      background: linear-gradient(90deg, #ff8fab, #ff4d79);
-      color: white; border: none; border-radius: 999px;
-      padding: 15px 30px; font: 600 1rem Quicksand, sans-serif;
-      cursor: pointer; width: 100%; transition: transform .2s, box-shadow .2s;
-      box-shadow: 0 10px 20px rgba(255, 77, 121, 0.3);
+    
+    .flower { 
+      position: absolute; top: 15px; left: 20px; 
+      color: #ff4d79; font-size: 22px; 
     }
-    .btn-pink:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(255, 77, 121, 0.5); }
+
+    .card h1 { 
+      font: 700 2.8rem 'Caveat', cursive;
+      color: #101010; 
+      margin: 0 0 25px 0; 
+      line-height: 1.1; 
+    }
+    
+    .img-container {
+      background: #fdf6e3;
+      width: 160px; height: 180px;
+      margin: 0 auto 25px auto;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 4px; 
+      overflow: hidden;
+    }
+
+    .card-img { 
+      width: 100%; height: auto; 
+      object-fit: contain;
+    }
+    
+    .card p { 
+      color: #090909; 
+      font: 500 1.05rem 'Caveat', cursive; 
+      margin: 0 0 30px 0; 
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    
+    .btn-pink {
+      background: linear-gradient(90deg, #b5fe9a, #82ff4d);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 15px 20px;
+      font: 600 1rem 'Quicksand', sans-serif;
+      cursor: pointer;
+      width: 100%;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 10px 20px rgba(80, 255, 77, 0.3);
+    }
+    .btn-pink:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 15px 25px rgba(77, 255, 98, 0.5); 
+    }
 
     /* ==========================================
        4. PANTALLA 2: EL PUNTO ROSA
@@ -81,9 +122,9 @@
     }
     .pink-star {
       width: 70px; height: 70px;
-      background: radial-gradient(circle, #ffb3c6 0%, #ff4d79 50%, #c91140 100%);
+      background: radial-gradient(circle, #b3fffc 0%, #4db5ff 50%, #11a1c9 100%);
       border-radius: 50%;
-      box-shadow: 0 0 30px #ff4d79, 0 0 60px #c91140, 0 0 100px #c91140;
+      box-shadow: 0 0 30px #4dcaff, 0 0 60px #11c9ba, 0 0 100px #11c9b3;
       cursor: pointer; animation: pulseStar 1.5s infinite alternate; margin-bottom: 40px;
     }
     .tap-text { color: #b0b0b0; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-align: center; padding: 0 20px; }
@@ -92,24 +133,20 @@
        5. TEXTO INFERIOR
        ========================================== */
     #birthday-overlay {
-      position: fixed; bottom: 30px; left: 0; right: 0; z-index: 5;
+      position: fixed; bottom: 40px; left: 0; right: 0; z-index: 5;
       text-align: center; pointer-events: none;
       opacity: 0; transition: opacity 1.5s ease 1s;
     }
     #birthday-overlay.visible { opacity: 1; }
     
     #birthday-overlay h2 {
-      font: 400 2.8rem 'Great Vibes', cursive;
-      color: #ffffff; margin: 0 0 10px 0;
+      font: 400 3.2rem 'Great Vibes', cursive;
+      color: #ffffff; margin: 0;
       text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-    }
-    #counter-text {
-      font: 500 0.85rem Quicksand, sans-serif;
-      color: #ded4f4; margin: 0; letter-spacing: 0.05em;
     }
 
     /* ==========================================
-       6. PALABRAS FLOTANTES Y BOTÓN VOLVER
+       6. PALABRAS FLOTANTES Y BOTONES FLOTANTES
        ========================================== */
     #word-layer {
       position: fixed; inset: 0; z-index: 3; pointer-events: none;
@@ -132,19 +169,29 @@
       outline: none; scale: 1.08;
     }
 
-    .back-btn {
-      position: fixed; top: 20px; left: 20px; z-index: 15;
+    /* Botones superiores (Volver y Música) */
+    .back-btn, .music-btn {
+      position: fixed; top: 20px; z-index: 15;
       background: #ffffff15; border: 1px solid #ffffff40;
       color: white; padding: 8px 16px; border-radius: 999px;
       font: 600 0.85rem Quicksand, sans-serif; cursor: pointer;
       backdrop-filter: blur(8px);
       opacity: 0; visibility: hidden; transition: all 0.4s ease;
     }
+    
+    .back-btn { left: 20px; }
     .back-btn.show { opacity: 1; visibility: visible; }
     .back-btn:hover { background: #ffffff30; transform: scale(1.05); }
 
+    .music-btn {
+      right: 20px; width: 42px; height: 42px; padding: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    }
+    .music-btn.show { opacity: 1; visibility: visible; }
+    .music-btn:hover { background: #ffffff30; transform: scale(1.05); }
+
     /* ==========================================
-       7. MODAL DE RECUERDOS (Z-INDEX ALTO)
+       7. MODAL DE RECUERDOS
        ========================================== */
     #memory-modal {
       position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
@@ -181,47 +228,62 @@
        8. ANIMACIONES
        ========================================== */
     @keyframes pulseStar {
-      0% { transform: scale(1); box-shadow: 0 0 30px #ff4d79, 0 0 60px #c91140; }
-      100% { transform: scale(1.15); box-shadow: 0 0 50px #ff4d79, 0 0 100px #c91140, 0 0 150px #c91140; }
+      0% { transform: scale(1); box-shadow: 0 0 30px #b54dff, 0 0 60px #118fc9; }
+      100% { transform: scale(1.15); box-shadow: 0 0 50px #4dff8e, 0 0 100px #c91111, 0 0 150px #c9b311; }
     }
     
     @media(max-width: 600px) {
       .word { padding: 6px 10px; max-width: 50vw; white-space: normal; text-align: center; font-size: 0.75rem; }
-      #birthday-overlay h2 { font-size: 2.2rem; }
-      #counter-text { font-size: 0.75rem; }
+      #birthday-overlay h2 { font-size: 2.5rem; }
     }
   </style>
 </head>
 <body>
 
+  <!-- 🎵 ETIQUETAS DE AUDIO (Asegúrate de tener los dos archivos mp3) -->
+  <audio id="intro-music" loop>
+    <source src="Recursos/feliz cumpleaños.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="universe-music" loop>
+    <source src="Recursos/Coldplay X BTS - My Universe (Lyrics + Español + Hangul) Video Official.mp3" type="audio/mpeg">
+  </audio>
+
   <!-- PANTALLA 1: TARJETA DE INICIO -->
   <section id="intro-card-section">
     <div class="card">
       <div class="flower">🌸</div>
-      <h1>Una Galaxia de<br>Amor para Ti</h1>
-      <img src="koala.png" alt="Osito y Conejito" class="card-img" onerror="this.style.display='none'">
-      <p>Feliz Cumpleaños, Mi Vida</p>
-      <button id="start-btn" class="btn-pink">Entrar a Nuestro Universo ☀️</button>
+      <h1>Una Galaxia para Ti</h1>
+      
+      <div class="img-container">
+        <img src="Recursos/k6.png" alt="Koala" class="card-img" >
+      </div>
+      
+      <p>Feliz cumpleaños Mel <br> 🫰🩵</p>
+      
+      <button id="start-btn" class="btn-pink">Descubrir mi galaxia</button>
     </div>
   </section>
 
-  <!-- PANTALLA 2: EL PUNTO ROSA -->
+  <!-- PANTALLA 2: EL PUNTO -->
   <section id="star-section" class="hide">
-    <p class="quote-text">"Dicen que el universo entero nació de una gran explosión... pero el mío empezó de verdad el día en que te conocí"</p>
+    <p class="quote-text">"Dicen que el universo nació de una gran explosión...<br> <br> pero hay personas que llegan al tuyo y hacen que todo empiece a tener un orden especial. <br> ¡Feliz cumpleaños!"</p>
     <div id="pink-star" class="pink-star"></div>
-    <p class="tap-text">TOCA LA ESTRELLA PARA ENCENDER<br>NUESTRO UNIVERSO 👇</p>
+    <p class="tap-text">Dale clic y descubre que pasa :3 </p>
   </section>
 
   <!-- PANTALLA 3: LA GALAXIA -->
   <div id="canvas-container"></div>
   <div class="vignette" id="vignette"></div>
   
-  <button id="back-to-intro" class="back-btn">↩ Volver al inicio</button>
+  <!-- BOTONES FLOTANTES (Volver y Música) -->
+  <button id="back-to-intro" class="back-btn">Ver nuevamente el inicio 💚</button>
+  <button id="music-btn" class="music-btn" title="Pausar/Reproducir música">🔇</button>
+
   <div id="word-layer" aria-label="Palabras interactivas"></div>
 
+  <!-- Texto inferior sin contador -->
   <div id="birthday-overlay">
-    <h2>¡Feliz Cumpleaños Melany!</h2>
-    <p id="counter-text">Cargando tiempo...</p>
+    <h2>¡Feliz Cumpleaños Melany 🫰🩵💚!</h2>
   </div>
 
   <!-- Modal de Recuerdos -->
@@ -232,7 +294,7 @@
       <h2 id="memory-title">Recuerdos</h2>
       <img id="memory-image" alt="Fotografía del recuerdo">
       <p id="memory-text"></p>
-      <div class="modal-foot">✧ HECHO CON CARIÑO ✧</div>
+      <div class="modal-foot">Feliz cumpleaños Mel 🫰</div>
     </div>
   </div>
 
@@ -253,16 +315,16 @@
        1. CONFIGURACIÓN DE LAS PALABRAS
        ========================================== */
     const surprises = [
-      { title: 'HAPPY BIRTHDAY 🎂', phrase: 'El día que naciste el universo se volvió más bonito.', image: '' },
-      { title: 'MI VIDA 💖', phrase: 'Eres mi persona favorita en todo el cosmos.', image: '' },
-      { title: 'JUNTOS ∞', phrase: 'No importa cuántas estrellas haya, siempre quiero estar a tu lado.', image: '' },
-      { title: 'TE AMO ❤️', phrase: 'Te amo más de lo que las palabras pueden explicar.', image: '' },
-      { title: 'FELIZ CUMPLE 🎉', phrase: 'Espero que este año esté lleno de bendiciones y sonrisas.', image: '' },
-      { title: 'ERES MI UNIVERSO 🪐', phrase: 'Gracias por llenar mis días de luz.', image: '' }
+      { title: 'FELIZ CUMPLEAÑOS 🎂', phrase: 'Hoy cumples un día más siendo la persona que más quiero.', image: 'Recursos/Mel/1.png' },
+      { title: 'UNA COINCIDENCIA ✨', phrase: 'Coincidir contigo es de mis cosas favoritas en todo el cosmos.', image: 'Recursos/Mel/5.jpg' },
+      { title: 'DETALLES 💫', phrase: 'Entre tantas estrellas y posibilidades, me alegra mucho compartir tiempo a tu lado.', image: 'Recursos/Mel/6.jpg' },
+      { title: 'UN DESEO 🎈', phrase: 'Hay sonrisas que iluminan todo, y la tuya es de mis preferidas.', image: 'Recursos/Mel/3.jpg' },
+      { title: 'ALEGRÍA 🎉', phrase: 'Deseo que este nuevo año te traiga momentos increíbles y muchas razones para sonreír.', image: 'Recursos/Mel/2.jpg' },
+      { title: 'GRACIAS 🪐', phrase: 'Gracias por ser esa luz bonita que hace que cualquier día sea mejor.', image: 'Recursos/Mel/4.png' }
     ];
 
     /* ==========================================
-       2. LÓGICA DEL DOM Y MODAL
+       2. LÓGICA DEL DOM Y AUDIO
        ========================================== */
     const layer = document.getElementById('word-layer');
     const wordEls = [];
@@ -277,7 +339,24 @@
     const canvasContainer = document.getElementById('canvas-container');
     const vignette = document.getElementById('vignette');
 
-    // Crear los botones de las palabras
+    // 🎵 Variables de la música
+    const introMusic = document.getElementById('intro-music');
+    const universeMusic = document.getElementById('universe-music');
+    const musicBtn = document.getElementById('music-btn');
+    let isUniversePlaying = false;
+
+    // Control del botón de música (pausa/reproduce la del universo)
+    musicBtn.addEventListener('click', () => {
+      if (isUniversePlaying) {
+        universeMusic.pause();
+        musicBtn.textContent = '🔇';
+      } else {
+        universeMusic.play().catch(e => console.log("Audio bloqueado"));
+        musicBtn.textContent = '🎵';
+      }
+      isUniversePlaying = !isUniversePlaying;
+    });
+
     surprises.forEach((item, i) => {
       const btn = document.createElement('button');
       btn.className = 'word';
@@ -286,9 +365,8 @@
       layer.appendChild(btn);
       wordEls.push(btn);
       
-      // CAMBIO CLAVE: Usar 'pointerdown' en lugar de 'click' para evitar que el botón se mueva
       btn.addEventListener('pointerdown', (e) => {
-        e.stopPropagation(); // Evita que Three.js interfiera
+        e.stopPropagation();
         openSurprise(i);
       });
     });
@@ -315,40 +393,34 @@
     modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
     /* ==========================================
-       3. CONTADOR EN VIVO
+       3. FLUJO DE TRANSICIÓN Y CONTROL DE MÚSICA
        ========================================== */
-    const startDate = new Date('2003-10-16T00:00:00'); 
-
-    function updateCounter() {
-      const now = new Date();
-      const diff = now - startDate;
-      
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / 1000 / 60) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-      
-      document.getElementById('counter-text').innerHTML = 
-        `Llevas <b>${days.toLocaleString()}</b> días, <b>${hours} h</b>, <b>${minutes} min</b> y <b>${seconds} s</b> llenando el universo de amor.`;
-    }
-    setInterval(updateCounter, 1000);
-    updateCounter();
-
-    /* ==========================================
-       4. FLUJO DE TRANSICIÓN
-       ========================================== */
+    
+    // De Tarjeta a Punto (Empieza música 1)
     startBtn.addEventListener('click', () => {
+      introMusic.volume = 0.5; 
+      introMusic.play().catch(e => console.log("Audio bloqueado"));
+      
       introCardSection.classList.add('hide');
       setTimeout(() => { starSection.classList.remove('hide'); }, 500);
     });
 
+    // Del Punto a la Galaxia (Pausa música 1, empieza música 2)
     pinkStar.addEventListener('click', () => {
       starSection.classList.add('hide');
+      
+      introMusic.pause();
+      universeMusic.volume = 0.5;
+      universeMusic.play().catch(e => console.log("Audio bloqueado"));
+      isUniversePlaying = true;
+      musicBtn.textContent = '🎵';
+      
       setTimeout(() => {
         canvasContainer.classList.add('visible');
         vignette.classList.add('visible');
         layer.classList.add('visible');
         backBtn.classList.add('show');
+        musicBtn.classList.add('show'); // Mostrar botón de música
         birthdayOverlay.classList.add('visible');
         
         controls.autoRotateSpeed = 2.0; 
@@ -356,12 +428,18 @@
       }, 600);
     });
 
+    // Volver al inicio (Pausa música 2, reinicia música 1)
     backBtn.addEventListener('click', () => {
       layer.classList.remove('visible');
       backBtn.classList.remove('show');
+      musicBtn.classList.remove('show');
       birthdayOverlay.classList.remove('visible');
       canvasContainer.classList.remove('visible');
       vignette.classList.remove('visible');
+      
+      universeMusic.pause();
+      isUniversePlaying = false;
+      introMusic.play().catch(e => console.log("Audio bloqueado"));
       
       closeModal();
       setTimeout(() => {
@@ -372,7 +450,7 @@
     });
 
     /* ==========================================
-       5. THREE.JS (GALAXIA Y CORAZÓN)
+       4. THREE.JS (GALAXIA Y CORAZÓN)
        ========================================== */
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x050510, .045);
@@ -464,20 +542,20 @@
     heartMesh.position.set(0, 1.5, 0); 
     scene.add(heartMesh); 
 
-    // // Nombre "Melany"
-    // const textCanvas = document.createElement('canvas');
-    // textCanvas.width = 512; textCanvas.height = 256;
-    // const ctx = textCanvas.getContext('2d');
+    // Nombre en el centro (si querías que dijera Melany, cambia el '' por 'Melany')
+    const textCanvas = document.createElement('canvas');
+    textCanvas.width = 512; textCanvas.height = 256;
+    const ctx = textCanvas.getContext('2d');
     
-    // function drawName() {
-    //   ctx.clearRect(0, 0, textCanvas.width, textCanvas.height);
-    //   const gradient = ctx.createLinearGradient(0, 0, 512, 0);
-    //   gradient.addColorStop(0, '#fbcfe8'); gradient.addColorStop(1, '#c4b5fd'); 
-    //   ctx.fillStyle = gradient; ctx.font = 'bold 140px "Caveat", cursive';
-    //   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    //   ctx.shadowColor = '#e879f9'; ctx.shadowBlur = 25;
-    //   ctx.fillText('Melany', 256, 128);
-    // }
+    function drawName() {
+      ctx.clearRect(0, 0, textCanvas.width, textCanvas.height);
+      const gradient = ctx.createLinearGradient(0, 0, 512, 0);
+      gradient.addColorStop(0, '#fbcfe8'); gradient.addColorStop(1, '#c4b5fd'); 
+      ctx.fillStyle = gradient; ctx.font = 'bold 140px "Caveat", cursive';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.shadowColor = '#e879f9'; ctx.shadowBlur = 25;
+      ctx.fillText('', 256, 128);
+    }
 
     document.fonts.ready.then(() => {
       drawName();
@@ -491,7 +569,7 @@
       window.nameSprite = nameSprite;
     });
 
-    // Koala
+    // Koala en 3D
     const textureLoader = new THREE.TextureLoader();
     textureLoader.load('koala.png', (koalaTexture) => {
       const koalaMaterial = new THREE.SpriteMaterial({ map: koalaTexture, transparent: true, depthWrite: false });
@@ -533,7 +611,7 @@
     }
 
     /* ==========================================
-       6. BUCLE DE ANIMACIÓN
+       5. BUCLE DE ANIMACIÓN
        ========================================== */
     const clock = new THREE.Clock();
     function animate() {
